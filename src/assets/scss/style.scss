@@ -1,0 +1,31 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    font-weight: 400;
+    font-size: 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.w20 {
+    width: 20px;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.cdk-overlay-pane {
+    background: white;
+}

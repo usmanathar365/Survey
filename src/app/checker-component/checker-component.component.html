@@ -1,0 +1,256 @@
+<div class="checker-root checker-body" [style]="{ 'direction': dir }">
+
+    <header class="checker-header">
+
+        <app-language></app-language>
+        <img src="assets/logo2.png" alt="logo" class="checker-logo" />
+    </header>
+
+    <!-- stepper under logo -->
+    <mat-card style="width: 100%;">
+        <div class="stepper" *ngIf="step <=7">
+            <div class="steps">
+                <div class="step" [class.active]="step>=1"></div>
+                <div class="step" [class.active]="step>=2"></div>
+                <div class="step" [class.active]="step>=3"></div>
+                <div class="step" [class.active]="step>=4"></div>
+                <div class="step" [class.active]="step>=5"></div>
+                <div class="step" [class.active]="step>=6"></div>
+            </div>
+        </div>
+        <mat-card-content>
+            <!-- Step 1: intake -->
+            <section *ngIf="step===1">
+                <h2 class="greeting">{{'Hello!' | translate}} <span class="wave">👋</span></h2>
+                <p class="subtitle">{{'We would like to know some basic information about you, so kindly fill it here.' | translate}}
+                </p>
+                <div class="intake-form">
+                    <label class="field">
+                        <input type="text" placeholder="{{'Full name' | translate}}" [(ngModel)]="name"
+                            autocomplete="off" name="name" class="input-text" />
+                    </label>
+
+                    <label class="field">
+                        <mat-select [(ngModel)]="age" name="age" class="select-age">
+                            <mat-option [value]="null">{{'Age' | translate}}</mat-option>
+                            <mat-option *ngFor="let a of ages" [value]="a">{{ a }}</mat-option>
+                        </mat-select>
+                        <div *ngIf="age <= 7" class="error">
+                            *{{'Age should not less then 7' | translate}}
+                        </div>
+
+                    </label>
+                    <div class="gender-row">
+                        <button type="button" class="gender-btn" [class.selected]="gender==='female'" (click)="selectGender('female')">
+                            <mat-icon>female</mat-icon>
+                            <span>{{'Female' | translate}}</span>
+                        </button>
+                        <button type="button" class="gender-btn" [class.selected]="gender==='male'" (click)="selectGender('male')">
+                            <mat-icon>male</mat-icon>
+                            <span>{{'Male' | translate}}</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- Step 2: medical conditions checklist -->
+            <section *ngIf="step===2" class="conditions-screen">
+                <h2 class="greeting">{{'Do any of the following medical conditions apply to you?' | translate}}</h2>
+                <p class="subtitle" style="color: black; font-size: 13px;">{{'To ensure a safe and effective plan, share any applicable condition with us.' | translate}}</p>
+
+                <div class="conditions-list">
+                    <div *ngFor="let c of conditions" class="condition-item" (click)="toggleCondition(c.id)">
+                        <div class="condition-content" [class.highlight]="c.id==='none' && c.checked">
+                            <div class="condition-label">{{ c.label }}</div>
+                            <div class="condition-checkbox">
+                                <input type="checkbox" [checked]="c.checked" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Step 3: symptoms checklist -->
+            <section *ngIf="step===3" class="conditions-screen">
+                <h2 class="greeting">{{'Do you have any of the following symptoms?' | translate}}</h2>
+                <p class="subtitle" style="color:black; font-size: 15px;">{{'Your safety is our priority ❤️ Share any symptoms you are experiencing so we can determine the best path for you.' | translate}}</p>
+
+                <div class="conditions-list">
+                    <div *ngFor="let s of symptoms" class="condition-item" (click)="toggleSymptom(s.id)">
+                        <div class="condition-content" [class.highlight]="s.id==='none_sym' && s.checked">
+                            <div class="condition-label">{{ s.label }}</div>
+                            <div class="condition-checkbox">
+                                <input type="checkbox" [checked]="s.checked" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Step 4: height input -->
+            <section *ngIf="step===4" class="height-screen">
+                <div class="height-container">
+                    <h2 class="greeting">{{'Please enter height' | translate}}</h2>
+                    <div class="height-display">
+                        <span class="value"> <input type="number" class="height-number" [value]="height"
+                                (input)="onInputChange($event)" [min]="minHeight" [max]="maxHeight" /> </span>
+                        <span class="unit">cm</span>
+                    </div>
+                    <div class="height-instructions">{{'Or move the cursor' | translate}}</div>
+                    <div #rulerWrappers class="ruler-wrapper" (wheel)="onWheel($event)" (pointerdown)="onPointerDown($event)" (pointermove)="onPointerMove($event)" (pointerup)="onPointerUp($event)" (pointercancel)="onPointerUp($event)">
+                        <div class="ruler" [style.transform]="'translateY(' + translateY + 'px)'" [style.transition]="isDragging ? 'none' : 'transform 0.08s linear'" [style.willChange]="'transform'">
+                            <div *ngFor="let t of ticks" class="tick">
+                                <span class="label" *ngIf="t % 10 === 0">{{ t }}</span>
+                                <div class="line" [ngClass]="{
+                                  big: t % 10 === 0,
+                                  medium: t % 5 === 0 && t % 10 !== 0
+                                  }"></div>
+                            </div>
+                        </div>
+                        <div [class]="dir=='ltr'?'cursor':'cursor1'"></div>
+                        <!-- <div class="cursor1"></div> -->
+                    </div>
+                </div>
+            </section>
+            <!-- Step 5: weight input -->
+            <section *ngIf="step === 5" class="weight-screen">
+                <h2 class="greeting">{{'Please enter weight' | translate}}</h2>
+                <div class="height-display">
+                    <span class="value"> <input type="number" class="height-number" [value]="weight"
+                            (input)="onInputChangeWeight($event)" [min]="minWeight" [max]="maxWeight" /> </span>
+                    <span class="unit">kg</span>
+                </div>
+                <div class="weight-instructions">{{'Or move the cursor' | translate}}</div>
+                <div class="arc-wheel" (wheel)="onWheelWeight($event)" (pointerdown)="onWeightPointerDown($event)" (pointermove)="onWeightPointerMove($event)" (pointerup)="onWeightPointerUp($event)" (pointercancel)="onWeightPointerUp($event)">
+                    <svg viewBox="105 0 250 135" xmlns="http://www.w3.org/2000/svg">
+
+                        <path [attr.d]="'M ' + arcStartPoint.x + ' ' + arcStartPoint.y +
+                ' A ' + arcRadius + ' ' + arcRadius + ' 0 0 1 ' + arcEndPoint.x + ' ' + arcEndPoint.y" stroke="#2fa44a"
+                            stroke-width="2" fill="none" />
+                        <path [attr.d]="'M ' + polarToCartesian(arcRadius - 60, -90 - arcAngle / 2).x + ' ' +
+                  polarToCartesian(arcRadius - 60, -90 - arcAngle / 2).y +
+          ' A ' + (arcRadius - 60) + ' ' + (arcRadius - 60) + ' 0 0 1 ' +
+                  polarToCartesian(arcRadius - 60, -90 + arcAngle / 2).x + ' ' +
+                  polarToCartesian(arcRadius - 60, -90 + arcAngle / 2).y" stroke="#2fa44a" stroke-width="2.5"
+                            fill="none" />
+                        <g class="arc-scale"
+                            [attr.transform]="'rotate(' + offsetAngle + ',' + arcCenterX + ',' + arcCenterY + ')'"
+                            [class.snapping]="isSnapping" [class.dragging]="isDraggingWeight">
+                            <g *ngFor="let t of weightTicksArc">
+                                <line [attr.x1]="polarToCartesian(arcRadius, t.angle).x"
+                                    [attr.y1]="polarToCartesian(arcRadius, t.angle).y"
+                                    [attr.x2]="polarToCartesian(arcRadius - (t.type === 'big' ? 28 : t.type === 'medium' ? 18 : 10), t.angle).x"
+                                    [attr.y2]="polarToCartesian(arcRadius - (t.type === 'big' ? 28 : t.type === 'medium' ? 18 : 10), t.angle).y"
+                                    [attr.stroke-width]="t.type === 'big' ? 2 : 1" stroke="#2fa44a"
+                                    stroke-linecap="round" />
+                                <text *ngIf="t.type === 'big'" [attr.x]="polarToCartesian(arcRadius - 40, t.angle).x"
+                                    [attr.y]="polarToCartesian(arcRadius - 40, t.angle).y" text-anchor="middle"
+                                    alignment-baseline="middle" font-size="13" font-weight="600" fill="#2f2f2f">
+                                    {{ t.value }}
+                                </text>
+                            </g>
+                        </g>
+                    </svg>
+                    <div class="weight-pointer"></div>
+                </div>
+                <div class="bmi-box" [ngClass]="bmiStatus">
+                    <svg width="200" height="120" viewBox="0 0 200 120">
+                        <path d="M 20 100 A 80 80 0 0 1 180 100" stroke="#eee" stroke-width="14" fill="none" />
+                        <path [attr.d]="bmiArcPath"
+                            [attr.stroke]="bmiStatus === 'low' ? '#2fa44a' : (bmiStatus === 'normal' ? '#f7a600' : '#e53935')"
+                            stroke-width="14" fill="none" stroke-linecap="round" />
+                        <text x="100" y="70" text-anchor="middle" font-size="18" font-weight="600">
+                            {{'Body Mass' | translate}}
+                            <!-- Body Mass -->
+                        </text>
+                        <text x="100" y="95" text-anchor="middle" font-size="22" font-weight="700">
+                            {{ bmi }}
+                        </text>
+                    </svg>
+
+                    <div class="bmi-message">
+                        <ng-container *ngIf="bmiStatus === 'low'">
+                            <span class="green">✅ {{'Your BMI is below 27' | translate}}</span><br> {{'You are currently' | translate}}
+                            <b>{{'NOT ELIGIBLE' | translate}}</b> {{'to use any medication' | translate}}
+                        </ng-container>
+                        <ng-container *ngIf="bmiStatus === 'normal'">
+                            <span class="orange">⚠️ {{'Your health needs attention' | translate}}</span><br> {{'Take steps to improve your lifestyle' | translate}}
+                        </ng-container>
+                        <ng-container *ngIf="bmiStatus === 'high'">
+                            <span class="red">❗ {{'Immediate priority' | translate}}</span><br> {{'Please take serious steps to improve your health' | translate}}
+                        </ng-container>
+                    </div>
+                </div>
+            </section>
+            <!-- Step 6: phone section -->
+            <section *ngIf="step === 6" class="prescription-section">
+                <h2 class="title">{{'Get your prescription instantly!' | translate}}</h2>
+                <p class="subtitle">
+                    {{'Please enter your mobile number so we can easily reach you when needed.' | translate}}
+                </p>
+
+                <!-- Phone Input -->
+                <div class="phone-input">
+                    <span class="country-code">+966</span>
+                    <input type="number" [(ngModel)]="phoneNumber" placeholder="{{'Enter phone number' | translate}}" />
+                </div>
+                <div *ngIf="!phoneNumber && showError" class="error">
+                    {{'Please enter a valid phone number' | translate}}
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="terms">
+                    <label>
+                        <mat-checkbox [(ngModel)]="termsAccepted"></mat-checkbox>
+                        {{'I have read' | translate}} <a href="#">{{'Privacy Policy' | translate}}</a>,
+                        <a href="#">{{'Terms and Conditions' | translate}}</a> {{'and' | translate}}
+                        <a href="#">{{'Refund and Return Policy' | translate}}</a> {{'specific to Al Habib Pharmacies' |
+                        translate}},
+                        {{'and I agree with what is stated' | translate}}
+                    </label>
+                    <div *ngIf="!termsAccepted && showError" class="error">
+                        {{'Please accept the Terms and Conditions' | translate}}
+                    </div>
+                </div>
+
+                <!-- Guarantee Section -->
+                <div class="info">
+                    <div class="info-row">
+                        <mat-icon class="info-icon">security</mat-icon>
+                        <p>
+                            {{ 'We guarantee that your personal data will be protected and will not be shared with any third party' | translate }}
+                        </p>
+                    </div>
+                    <div class="info-row">
+                        <img src="assets/HealthLogo.png" alt="Ministry Logo" class="info-icon" />
+                        <p>
+                            {{'Licensed platform by the Saudi Ministry of Health with number' | translate}}
+                            <strong>2600036004</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section *ngIf="step === 7" class="payment-section">
+                <h2 class="payment-title">{{ 'Choose the payment method that suits you' | translate }}</h2>
+                <div class="payment-option" *ngFor="let method of paymentMethods" (click)="selectPayment(method.Value)" [class.asd]="selectedPayment===method.Value">
+                    <span>{{ method.Text }}</span>
+                    <img src="assets/{{method.Value}}.png" />
+                </div>
+                <!-- <div class="payment-option" (click)="selectPayment('visa')" [class.asd]="selectedPayment==='visa'">
+                    <span>{{ 'Visa or Mastercard' | translate }}</span>
+                    <img src="assets/mastercard.png" alt="Visa" />
+                </div>
+                <div class="payment-option" (click)="selectPayment('applepay')" [class.asd]="selectedPayment==='applepay'">
+                    <span>{{ 'Apple Pay' | translate }}</span>
+                    <img src="assets/applepay.png" alt="Apple Pay" />
+                </div> -->
+            </section>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="action-row">
+                <button *ngIf="step===1" type="button" class="next-btn" (click)="goNext()" [disabled]="!name || !age || age<=7 || !gender">{{ 'Next' | translate }}</button>
+                <button *ngIf="step !==1" class="back-btn" type="button" (click)="goBack()">{{ 'Back' | translate
+                    }}</button>
+                <button *ngIf="step !==1 && step !== 7" class="next-btn" type="button" (click)="goNext()">{{ 'Next' |
+                    translate }}</button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</div>

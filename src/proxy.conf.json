@@ -1,0 +1,11 @@
+{
+    "/api": {
+        "target": "https://epharmacy.hmg.com",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": "/leanscale_uat/survey"
+        },
+        "logLevel": "debug"
+    }
+}

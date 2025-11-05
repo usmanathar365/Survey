@@ -1,0 +1,22 @@
+<div fxLayoutAlign="start center" fxLayoutGap="10">
+    <button mat-button [matMenuTriggerFor]="language" style="margin:10px;display: flex;align-items:flex-end;">
+
+        <img class="w20" src="assets/flags/{{ flag }}.svg" />
+        <span style="margin: 10px;">{{ defaultLang }}</span>
+    </button>
+    <mat-menu #language="matMenu">
+        <button mat-menu-item (click)="changeLocale('en')">
+            <div style="display: flex; align-items: center; gap:10px">
+                <img class="w20" src="assets/flags/us.svg" />
+                <span class="navlink">English</span>
+            </div>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="changeLocale('ar')">
+            <div style="display: flex; align-items: center; gap:10px">
+                <img class="w20" src="assets/flags/sa.svg" />
+                <span class="navlink">العربية</span>
+            </div>
+        </button>
+    </mat-menu>
+</div>

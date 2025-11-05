@@ -1,0 +1,134 @@
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: #f5f5f5;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.success-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px 32px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+// Success Icon
+.success-icon-wrapper {
+  margin-bottom: 24px;
+}
+
+.success-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #e6f2ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 3px solid #2bb673;
+}
+
+.checkmark-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #2bb673;
+  font-weight: bold;
+}
+
+// Title
+.success-title {
+  color: #2bb673;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+}
+
+// Confirmation Message
+.confirmation-message {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 32px 0;
+  max-width: 420px;
+}
+
+// Countdown Section
+.countdown-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.countdown-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-circle {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.countdown-svg {
+  width: 64px;
+  height: 64px;
+  transform: rotate(-90deg);
+}
+
+.countdown-circle-bg {
+  stroke: #e6f2ec;
+}
+
+.countdown-circle-progress {
+  stroke: #2bb673;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.countdown-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #2bb673;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+ 
+
+// Page Indicators
+.page-indicators {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e6f2ec;
+  transition: background 0.3s ease;
+  
+  &.active {
+    background: #2bb673;
+  }
+}
+

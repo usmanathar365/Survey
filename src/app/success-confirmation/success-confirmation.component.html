@@ -1,0 +1,60 @@
+<div class="success-container">
+  <div class="success-card">
+    <!-- Success Icon -->
+    <div class="success-icon-wrapper">
+      <div class="success-icon-circle">
+        <mat-icon class="checkmark-icon">check</mat-icon>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="success-title">Thank you!</h1>
+
+    <!-- Confirmation Message -->
+    <p class="confirmation-message">
+      Your request has been successfully submitted. We truly value your time and trust in us. 
+      A digital invoice will be sent shortly to your registered email, and our team will contact you 
+      within 24 hours to confirm and process your order.
+    </p>
+
+    <!-- Countdown and Button Section -->
+    <div class="countdown-section">
+      <div class="countdown-wrapper">
+        <div class="countdown-circle">
+          <svg class="countdown-svg" viewBox="0 0 36 36">
+            <circle
+              class="countdown-circle-bg"
+              cx="18"
+              cy="18"
+              r="16"
+              fill="none"
+              stroke="#e6f2ec"
+              stroke-width="2"
+            ></circle>
+            <circle
+              class="countdown-circle-progress"
+              cx="18"
+              cy="18"
+              r="16"
+              fill="none"
+              stroke="#2bb673"
+              stroke-width="2"
+              [attr.stroke-dasharray]="circumference"
+              [attr.stroke-dashoffset]="strokeDashoffset"
+              transform="rotate(-90 18 18)"
+            ></circle>
+          </svg>
+          <span class="countdown-number">{{ countdown }}</span>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <!-- <div class="page-indicators">
+      <div class="indicator-dot"></div>
+      <div class="indicator-dot active"></div>
+      <div class="indicator-dot"></div>
+    </div> -->
+  </div>
+</div>
